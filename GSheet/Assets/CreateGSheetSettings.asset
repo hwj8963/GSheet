@@ -11,5 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71a8bcf7a2e84534bc3543c021083de, type: 3}
   m_Name: CreateGSheetSettings
   m_EditorClassIdentifier: 
-  CLIENT_ID: 
-  CLIENT_SECRET: 
+  CLIENT_ID: 1025324599733-l2rtceh4dn4jelkdscmbv187ug84futr.apps.googleusercontent.com
+  CLIENT_SECRET: KTlRkHWtwN0bq86m2n4Jo-jF
+  ACCESS_CODE: 4/6mqczZZrSaiLFXP5YCaFap_RtlG1MRk8YurJDMaB0Oc
+  ACCESS_TOKEN: ya29.OAIqRTHikGsQTaM2Yoltmcf8JZUCD4zGn9z3vM5pc9wzkgCMDzbLFH5V3unEjiT8Q4nU
