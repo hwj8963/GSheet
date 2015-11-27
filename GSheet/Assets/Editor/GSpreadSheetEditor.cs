@@ -10,9 +10,11 @@ public class GSpreadSheetEditor : Editor {
 	public override void OnInspectorGUI ()
 	{
 		spreadSheet.SpreadSheetName = EditorGUILayout.TextField ("SpreadSheet Name", spreadSheet.SpreadSheetName);
+		spreadSheet.WorkSheetName = EditorGUILayout.TextField ("WorkSheet Name", spreadSheet.WorkSheetName);
 		if (GUILayout.Button ("Find SpreadSheet")) {
-			spreadSheet.FindSpreadSheet();
+			spreadSheet.FindSpreadSheet ();
 		}
+		//spreadSheet.data.OnInspectorGUI ();
 
 		if (GUI.changed) {
 			EditorUtility.SetDirty(spreadSheet);

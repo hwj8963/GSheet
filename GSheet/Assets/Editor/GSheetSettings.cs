@@ -38,6 +38,7 @@ public class GSheetSettings : ScriptableObject {
 
 		string authorizationUrl = OAuthUtil.CreateOAuth2AuthorizationUrl(parameters);
 
+
 		Application.OpenURL (authorizationUrl);
 	}
 
@@ -52,6 +53,8 @@ public class GSheetSettings : ScriptableObject {
 		parameters.AccessCode = ACCESS_CODE;
 
 		OAuthUtil.GetAccessToken(parameters);
+		OAuthUtil.RefreshAccessToken (parameters);
+
 		ACCESS_TOKEN = parameters.AccessToken;
 
 		EditorUtility.SetDirty (this);
