@@ -35,26 +35,7 @@ public class GSheetsettingsEditor : Editor {
 		if (setting.Length > 0) {
 			Debug.Log ("setting already exist : " + AssetDatabase.GUIDToAssetPath(setting[0]));
 		} else {
-			GSheetSettings asset = ScriptableObject.CreateInstance<GSheetSettings> ();
-			
-			string path = AssetDatabase.GetAssetPath (Selection.activeObject);
-			if (path == "") 
-			{
-				path = "Assets";
-			} 
-			else if (Path.GetExtension (path) != "") 
-			{
-				path = path.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), "");
-			}
-			
-			string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/CreateGSheetSettings.asset");
-			
-			AssetDatabase.CreateAsset (asset, assetPathAndName);
-			
-			AssetDatabase.SaveAssets ();
-			AssetDatabase.Refresh();
-			EditorUtility.FocusProjectWindow ();
-			Selection.activeObject = asset;
+			GSheetUtility.CreateAsset<GSheetSettings>();
 		}
 		
 		

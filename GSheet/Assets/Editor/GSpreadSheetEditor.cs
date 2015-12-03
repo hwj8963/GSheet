@@ -23,26 +23,7 @@ public class GSpreadSheetEditor : Editor {
 
 	[MenuItem("Custom/GSheet/Create GSpreadSheet")]
 	public static void CreateSpreadSheet() {
-		GSpreadSheet asset = ScriptableObject.CreateInstance<GSpreadSheet> ();
-			
-		string path = AssetDatabase.GetAssetPath (Selection.activeObject);
-		if (path == "") 
-		{
-			path = "Assets";
-		} 
-		else if (Path.GetExtension (path) != "") 
-		{
-			path = path.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), "");
-		}
-		
-		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/New GSpreadSheet.asset");
-		
-		AssetDatabase.CreateAsset (asset, assetPathAndName);
-		
-		AssetDatabase.SaveAssets ();
-		AssetDatabase.Refresh();
-		EditorUtility.FocusProjectWindow ();
-		Selection.activeObject = asset;
+		GSheetUtility.CreateAsset<GSpreadSheet> ();
 	}
 
 }

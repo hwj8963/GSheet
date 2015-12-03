@@ -2,27 +2,35 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Sheet1Data {
+[System.Serializable]
+public class Sheet1DataEntry {
+
 	[SerializeField]
+	string _sname;
 	public string sName {
-		get;
-		private set;
+		get { return _sname;}
 	}
+
 	[SerializeField]
+	int _nage;
 	public int nAge {
-		get;
-		private set;
+		get { return _nage;}
 	}
+
 	[SerializeField]
+	int _ngender;
 	public int nGender {
-		get;
-		private set;
+		get { return _ngender;}
 	}
+
 	[SerializeField]
+	int	 _nscore;
 	public int nScore {
-		get;
-		private set;
+		get { return _nscore;}
 	}
 }
-public class Sheet1Sheet : ScriptableObject{
+public class Sheet1Data : ScriptableObject{
+	public string SpreadSheetName;
+	public string WorkSheetName;
+	public List<Sheet1DataEntry> data;
 }
