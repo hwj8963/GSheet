@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Sheet1DataEntry {
-
+public class Sheet1DataEntry : GSheetDataEntry {
 	[SerializeField]
 	string _sname;
 	public string sName {
@@ -33,8 +32,5 @@ public class Sheet1DataEntry {
 		set { _nscore = value;}
 	}
 }
-public class Sheet1Data : ScriptableObject{
-	public string SpreadSheetName;
-	public string WorkSheetName;
-	public List<Sheet1DataEntry> data;
+public class Sheet1Data : GSheetData<Sheet1DataEntry> {
 }
