@@ -23,7 +23,8 @@ public class GSheetsettingsEditor : Editor {
 			settings.GetAccessToken();
 		}
 		//settings.ACCESS_TOKEN = EditorGUILayout.TextField ("Access Token", settings.ACCESS_TOKEN);
-		EditorGUILayout.LabelField ("Access Token", settings.ACCESS_TOKEN,GUILayout.Height(100f));
+		EditorGUILayout.LabelField ("Access Token", settings.ACCESS_TOKEN);
+		EditorGUILayout.LabelField ("Refresh Token", settings.REFRESH_TOKEN);
 		if (GUI.changed) {
 			EditorUtility.SetDirty(settings);
 		}

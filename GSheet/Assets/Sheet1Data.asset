@@ -46,14 +46,6 @@ MonoBehaviour:
     _nage: 24
     _ngender: 1
     _nscore: 40
-  - _sname: I
-    _nage: 28
-    _ngender: 0
-    _nscore: 55
-  - _sname: J
-    _nage: 22
-    _ngender: 0
-    _nscore: 80
   - _sname: K
     _nage: 23
     _ngender: 1

@@ -15,13 +15,135 @@ public class Sheet1DataEditor : Editor {
 		sheet = target as Sheet1Data;
 	}
 
+	static readonly float buttonWidth = 25f;
+	static readonly float fieldMinWidth = 20f;
 	public override void OnInspectorGUI ()
 	{
 		if (GUILayout.Button ("Download From Google Spread Sheet")) {
 			Download();
 			EditorUtility.SetDirty(sheet);
 		}
-		base.OnInspectorGUI ();
+
+		sheet.SpreadSheetName = EditorGUILayout.TextField ("Spread Sheet Name", sheet.SpreadSheetName);
+		sheet.WorkSheetName = EditorGUILayout.TextField ("Work Sheet Name", sheet.WorkSheetName);
+
+		GUILayout.BeginHorizontal ();
+
+		GUILayout.Label ("sName".PadRight(10,' '),GUILayout.MinWidth (fieldMinWidth));
+		GUILayout.Label ("nAge".PadRight(10,' '),GUILayout.MinWidth (fieldMinWidth));
+		GUILayout.Label ("nGender".PadRight(10,' '),GUILayout.MinWidth (fieldMinWidth));
+		GUILayout.Label ("nScore".PadRight(10,' '),GUILayout.MinWidth (fieldMinWidth));
+		GUILayout.Space (4 * buttonWidth + 16);
+		GUILayout.EndHorizontal ();
+		for (int i=0; i<sheet.data.Count; i++) {
+			GUILayout.BeginHorizontal();
+			sheet.data[i].sName = EditorGUILayout.TextField(sheet.data[i].sName,GUILayout.MinWidth(fieldMinWidth));
+			sheet.data[i].nAge = EditorGUILayout.IntField(sheet.data[i].nAge,GUILayout.MinWidth(fieldMinWidth));
+			sheet.data[i].nGender = EditorGUILayout.IntField(sheet.data[i].nGender,GUILayout.MinWidth(fieldMinWidth));
+			sheet.data[i].nScore = EditorGUILayout.IntField(sheet.data[i].nScore,GUILayout.MinWidth(fieldMinWidth));
+
+			if(GUILayout.Button ("+",GUILayout.Width(buttonWidth))) {
+				sheet.data.Insert(i,new Sheet1DataEntry());
+			} 
+			if(GUILayout.Button ("-",GUILayout.Width(buttonWidth))) {
+				sheet.data.RemoveAt(i);
+			} 
+			if(GUILayout.Button ("▲",GUILayout.Width (buttonWidth))) {
+				if(i > 0) {
+					Sheet1DataEntry entry = sheet.data[i];
+					sheet.data[i] = sheet.data[i-1];
+					sheet.data[i-1] = entry;
+				}
+			} 
+			if(GUILayout.Button ("▼",GUILayout.Width (buttonWidth))) {
+				if(i < sheet.data.Count-1) {
+					Sheet1DataEntry entry = sheet.data[i];
+					sheet.data[i] = sheet.data[i+1];
+					sheet.data[i+1] = entry;
+				}
+			}
+
+			GUILayout.EndHorizontal();
+		}
+
+
+		/*
+		GUILayout.BeginHorizontal ();
+
+		GUILayout.BeginVertical (GUILayout.MinWidth(fieldMinWidth),GUILayout.ExpandWidth(true)); 
+		{
+			GUILayout.Label ("sName");
+			for (int i=0; i<sheet.data.Count; i++) {
+				sheet.data [i].sName = EditorGUILayout.TextField (sheet.data [i].sName);
+			}
+		}
+		GUILayout.EndVertical();
+
+		GUILayout.BeginVertical (GUILayout.MinWidth(fieldMinWidth),GUILayout.ExpandWidth(true)); 
+		{
+			GUILayout.Label ("nAge");
+			for (int i=0; i<sheet.data.Count; i++) {
+				sheet.data [i].nAge = EditorGUILayout.IntField (sheet.data [i].nAge);
+			}
+		}
+		GUILayout.EndVertical();
+
+		GUILayout.BeginVertical (GUILayout.MinWidth(fieldMinWidth),GUILayout.ExpandWidth(true)); 
+		{
+			GUILayout.Label ("nGender");
+			for (int i=0; i<sheet.data.Count; i++) {
+				sheet.data [i].nGender = EditorGUILayout.IntField (sheet.data [i].nGender);
+			}
+		}
+		GUILayout.EndVertical();
+
+		GUILayout.BeginVertical (GUILayout.MinWidth(fieldMinWidth),GUILayout.ExpandWidth(true)); 
+		{
+			GUILayout.Label ("nScore");
+			for (int i=0; i<sheet.data.Count; i++) {
+				sheet.data [i].nScore = EditorGUILayout.IntField (sheet.data [i].nScore);
+			}
+		}
+		GUILayout.EndVertical();
+
+		GUILayout.BeginVertical (GUILayout.MinWidth(fieldMinWidth),GUILayout.ExpandWidth(true)); 
+		{
+			GUILayout.Label ("");
+			for (int i=0; i<sheet.data.Count; i++) {
+				GUILayout.BeginHorizontal();
+				if(GUILayout.Button ("+",GUILayout.Width(buttonWidth))) {
+					sheet.data.Insert(i,new Sheet1DataEntry());
+				} 
+				if(GUILayout.Button ("-",GUILayout.Width(buttonWidth))) {
+					sheet.data.RemoveAt(i);
+				} 
+				if(GUILayout.Button ("▲",GUILayout.Width (buttonWidth))) {
+					if(i > 0) {
+						Sheet1DataEntry entry = sheet.data[i];
+						sheet.data[i] = sheet.data[i-1];
+						sheet.data[i-1] = entry;
+					}
+				} 
+				if(GUILayout.Button ("▼",GUILayout.Width (buttonWidth))) {
+					if(i < sheet.data.Count-1) {
+						Sheet1DataEntry entry = sheet.data[i];
+						sheet.data[i] = sheet.data[i+1];
+						sheet.data[i+1] = entry;
+					}
+				}
+				GUILayout.EndHorizontal();	
+			}
+		}
+		GUILayout.EndVertical();
+
+		GUILayout.EndHorizontal();*/
+
+
+		if (GUI.changed) {
+			EditorUtility.SetDirty(sheet);
+		}
+
+		//base.OnInspectorGUI ();
 
 	}
 

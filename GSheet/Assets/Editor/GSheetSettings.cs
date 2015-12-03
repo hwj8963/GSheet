@@ -13,6 +13,7 @@ public class GSheetSettings : ScriptableObject {
 	public string ACCESS_CODE;
 
 	public string ACCESS_TOKEN;
+	public string REFRESH_TOKEN;
 
 	public OAuth2Parameters GetParameters() {
 		OAuth2Parameters parameters = new OAuth2Parameters();
@@ -24,6 +25,7 @@ public class GSheetSettings : ScriptableObject {
 		parameters.AccessCode = ACCESS_CODE;
 
 		parameters.AccessToken = ACCESS_TOKEN;
+		parameters.RefreshToken = REFRESH_TOKEN;
 
 		return parameters; 
 	}
@@ -56,6 +58,7 @@ public class GSheetSettings : ScriptableObject {
 		OAuthUtil.RefreshAccessToken (parameters);
 
 		ACCESS_TOKEN = parameters.AccessToken;
+		REFRESH_TOKEN = parameters.RefreshToken;
 
 		EditorUtility.SetDirty (this);
 	}

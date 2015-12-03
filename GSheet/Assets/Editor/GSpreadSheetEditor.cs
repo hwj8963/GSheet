@@ -19,6 +19,7 @@ public class GSpreadSheetEditor : Editor {
 		if (GUI.changed) {
 			EditorUtility.SetDirty(spreadSheet);
 		}
+
 	}
 
 	[MenuItem("Custom/GSheet/Create GSpreadSheet")]
