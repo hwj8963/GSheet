@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using System.Collections.Generic;
 using Google.GData.Spreadsheets;
 using Google.GData.Client;
 
@@ -61,7 +62,7 @@ public class GSheetDataEditor<Data,Entry> : Editor
 		GUILayout.Space (4 * buttonWidth + 16);
 		GUILayout.EndHorizontal ();
 
-		IList list = sheet.data;
+		List<Entry> list = sheet.data;
 		for (int i=0; i<list.Count; i++) {
 			GUILayout.BeginHorizontal();
 			object entry = list[i];
@@ -70,7 +71,7 @@ public class GSheetDataEditor<Data,Entry> : Editor
 			}
 			
 			if(GUILayout.Button ("+",GUILayout.Width(buttonWidth))) {
-				list.Insert(i,Activator.CreateInstance(EntryType));
+				list.Insert(i,Activator.CreateInstance(EntryType) as Entry);
 			} 
 			if(GUILayout.Button ("-",GUILayout.Width(buttonWidth))) {
 				list.RemoveAt(i);
@@ -78,13 +79,13 @@ public class GSheetDataEditor<Data,Entry> : Editor
 			if(GUILayout.Button ("▲",GUILayout.Width (buttonWidth))) {
 				if(i > 0) {
 					list[i] = list[i-1];
-					list[i-1] = entry;
+					list[i-1] = entry as Entry;
 				}
 			} 
 			if(GUILayout.Button ("▼",GUILayout.Width (buttonWidth))) {
 				if(i < list.Count-1) {
 					list[i] = list[i+1];
-					list[i+1] = entry;
+					list[i+1] = entry as Entry;
 				}
 			}
 			
@@ -110,7 +111,7 @@ public class GSheetDataEditor<Data,Entry> : Editor
 		ListQuery listQuery = new ListQuery(listFeedLink.HRef.ToString());
 		ListFeed listFeed = service.Query(listQuery);
 		
-		sheet.data.Clear ();
+		sheet.data = new List<Entry> ();
 		Type t = typeof(Entry);
 		BindingFlags bindingFlag = BindingFlags.NonPublic | BindingFlags.Instance;
 		foreach (ListEntry row in listFeed.Entries)

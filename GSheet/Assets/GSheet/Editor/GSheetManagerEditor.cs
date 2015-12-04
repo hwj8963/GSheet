@@ -48,7 +48,7 @@ public class GSheetManagerEditor : Editor {
 			string fieldType = "string";
 			if(cell.Value[0] == 'n') {
 				fieldType = "int";
-			} else if(cell.Value[1] == 'f') {
+			} else if(cell.Value[0] == 'f') {
 				fieldType = "float";
          	}
 			string fieldScript = fieldFormat.Replace("{FieldName}",cell.Value).Replace("{LowerCaseFieldName}",cell.Value.ToLower()).Replace ("{FieldType}",fieldType);
