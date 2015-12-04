@@ -97,52 +97,12 @@ public class GSheetDataEditor<Data,Entry> : Editor
 	}
 	
 	void Download() {
+		GSheetSettings setting = GSheetUtility.GetSettings ();
+		if (setting == null)
+			return;
+		SpreadsheetsService service = setting.GetService ();
 
-		string[] settings = AssetDatabase.FindAssets ("t:GSheetSettings");
-		if (settings.Length == 0) {
-			Debug.Log ("can't find settings");
-			return;
-		} 
-		
-		if (settings.Length > 1) {
-			Debug.Log ("settings num > 1 error");
-			return;
-		} 
-		
-		GSheetSettings setting = AssetDatabase.LoadAssetAtPath (AssetDatabase.GUIDToAssetPath (settings [0]), typeof(GSheetSettings)) as GSheetSettings;
-		
-		GOAuth2RequestFactory requestFactory =
-			new GOAuth2RequestFactory(null, "MySpreadsheetIntegration-v1", setting.GetParameters());
-		SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
-		service.RequestFactory = requestFactory;
-		
-		SpreadsheetQuery query = new SpreadsheetQuery();
-		
-		query.Title = sheet.SpreadSheetName;
-		query.Exact = true;
-		
-		//Iterate over the results
-		var feed = service.Query(query);
-		
-		if (feed.Entries.Count == 0) {
-			Debug.LogError ("can't find spreadsheet : " + sheet.SpreadSheetName);
-			return;
-		}
-		
-		
-		
-		SpreadsheetEntry spreadsheet = (SpreadsheetEntry)feed.Entries[0];
-		WorksheetFeed wsFeed = spreadsheet.Worksheets;
-		WorksheetEntry worksheet = null;
-		for (int i=0; i<wsFeed.Entries.Count; i++) {
-			if(wsFeed.Entries[i].Title.Text == sheet.WorkSheetName) {
-				worksheet = wsFeed.Entries[i] as WorksheetEntry;
-				break;
-			}
-		}
-		if (worksheet == null) {
-			Debug.LogError("can't find worksheet : " + sheet.WorkSheetName);
-		}
+		WorksheetEntry worksheet = setting.GetWorkSheet (service, sheet.SpreadSheetName, sheet.WorkSheetName);
 
 		AtomLink listFeedLink = worksheet.Links.FindService(GDataSpreadsheetsNameTable.ListRel, null);
 		

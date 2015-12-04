@@ -9,10 +9,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c71a8bcf7a2e84534bc3543c021083de, type: 3}
-  m_Name: CreateGSheetSettings
+  m_Name: GSheetSettings
   m_EditorClassIdentifier: 
   CLIENT_ID: 1025324599733-l2rtceh4dn4jelkdscmbv187ug84futr.apps.googleusercontent.com
   CLIENT_SECRET: KTlRkHWtwN0bq86m2n4Jo-jF
   ACCESS_CODE: 4/YwYa-Y7wdwlY-vytMvZ1_UuplqP8a76o0ENBVZtP1T4
   ACCESS_TOKEN: ya29.PwISvxVR7YymM-Job02uwXYEyL92uXYD5UxlEXyQ165Dk7RVE-UYUFr9FdeDK8jyXxiF
   REFRESH_TOKEN: 1/NiG7xINhDyZcML6gV97YDapZVU5hqHUwkGnCGv01IQA
+  ScriptPath: Assets/Script/GSheet
+  EditorScriptPath: Assets/Editor/GSheet
+  DataAssetPath: Assets/GSheetData
+  FieldTemplate: {fileID: 4900000, guid: 2af095b73e06443569d61566c461051f, type: 3}
+  DataTemplate: {fileID: 4900000, guid: b591a4d965e9a4d62990b823115ee773, type: 3}
+  DataEditorTemplate: {fileID: 4900000, guid: d07d02379903e4ee28efd0023fabaa31, type: 3}

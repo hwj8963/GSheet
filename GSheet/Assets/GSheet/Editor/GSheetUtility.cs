@@ -30,4 +30,18 @@ public static class GSheetUtility
 		EditorUtility.FocusProjectWindow ();
 		Selection.activeObject = asset;
 	}
+
+	public static GSheetSettings GetSettings() {
+		string[] settings = AssetDatabase.FindAssets ("t:GSheetSettings");
+		if (settings.Length == 0) {
+			Debug.Log ("can't find settings");
+			return null;
+		} 
+		if (settings.Length > 1) {
+			Debug.Log ("settings num > 1 error");
+			return null;
+		} 
+		GSheetSettings setting = AssetDatabase.LoadAssetAtPath (AssetDatabase.GUIDToAssetPath (settings [0]), typeof(GSheetSettings)) as GSheetSettings;
+		return setting;
+	}
 }

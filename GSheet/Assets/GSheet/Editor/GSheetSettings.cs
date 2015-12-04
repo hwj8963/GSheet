@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.IO;
 using Google.GData.Client;
+using Google.GData.Spreadsheets;
 public class GSheetSettings : ScriptableObject {
 
 	static readonly string SCOPE = "https://spreadsheets.google.com/feeds https://docs.google.com/feeds";
@@ -15,7 +16,7 @@ public class GSheetSettings : ScriptableObject {
 	public string ACCESS_TOKEN;
 	public string REFRESH_TOKEN;
 
-	public OAuth2Parameters GetParameters() {
+	OAuth2Parameters GetParameters() {
 		OAuth2Parameters parameters = new OAuth2Parameters();
 		
 		parameters.ClientId = CLIENT_ID;
@@ -62,4 +63,54 @@ public class GSheetSettings : ScriptableObject {
 
 		EditorUtility.SetDirty (this);
 	}
+	public SpreadsheetsService GetService() {
+		GOAuth2RequestFactory requestFactory =
+			new GOAuth2RequestFactory(null, "MySpreadsheetIntegration-v1", GetParameters());
+		SpreadsheetsService service = new SpreadsheetsService("MySpreadsheetIntegration-v1");
+		service.RequestFactory = requestFactory;
+		return service;
+	}
+
+	public WorksheetEntry GetWorkSheet(SpreadsheetsService service, string spreadSheetName, string workSheetName) {
+		if (service == null) {
+			return null;
+		}
+		SpreadsheetQuery query = new SpreadsheetQuery();
+		
+		query.Title = spreadSheetName;
+		query.Exact = true;
+		
+		//Iterate over the results
+		var feed = service.Query(query);
+		
+		if (feed.Entries.Count == 0) {
+			Debug.LogError ("can't find spreadsheet : " + spreadSheetName);
+			return null;
+		}
+
+		SpreadsheetEntry spreadsheet = (SpreadsheetEntry)feed.Entries[0];
+		WorksheetFeed wsFeed = spreadsheet.Worksheets;
+		WorksheetEntry worksheet = null;
+		for (int i=0; i<wsFeed.Entries.Count; i++) {
+			if(wsFeed.Entries[i].Title.Text == workSheetName) {
+				worksheet = wsFeed.Entries[i] as WorksheetEntry;
+				break;
+			}
+		}
+		if (worksheet == null) {
+			Debug.LogError("can't find worksheet : " + workSheetName);
+		}
+		return worksheet;
+	}
+
+
+
+
+	public string ScriptPath;
+	public string EditorScriptPath;
+	public string DataAssetPath;
+	
+	public TextAsset FieldTemplate;
+	public TextAsset DataTemplate;
+	public TextAsset DataEditorTemplate;
 }
