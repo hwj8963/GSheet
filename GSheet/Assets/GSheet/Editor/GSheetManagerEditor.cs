@@ -10,18 +10,15 @@ public class GSheetManagerEditor : Editor {
 
 	GSheetManager manager;
 
-	string SpreadSheetName = "";
-	string WorkSheetName = "";
-	bool CreateDataAsset = false;
+
 	void OnEnable() {
 		manager = target as GSheetManager;
 	}
 
 	public override void OnInspectorGUI ()
 	{
-		SpreadSheetName = EditorGUILayout.TextField("SpreadSheet Name",SpreadSheetName);
-		WorkSheetName = EditorGUILayout.TextField("WorkSheet Name",WorkSheetName);
-		CreateDataAsset = EditorGUILayout.Toggle ("Create Data Asset", CreateDataAsset);
+		manager.SpreadSheetName = EditorGUILayout.TextField("SpreadSheet Name",manager.SpreadSheetName);
+		manager.WorkSheetName = EditorGUILayout.TextField("WorkSheet Name",manager.WorkSheetName);
 		if (GUILayout.Button ("Create Data Script")) {
 			CreateScript();
 		}
@@ -33,7 +30,7 @@ public class GSheetManagerEditor : Editor {
 			return;
 		SpreadsheetsService service = setting.GetService ();
 		
-		WorksheetEntry worksheet = setting.GetWorkSheet (service, SpreadSheetName, WorkSheetName);
+		WorksheetEntry worksheet = setting.GetWorkSheet (service, manager.SpreadSheetName, manager.WorkSheetName);
 
 
 		CellQuery cellQuery = new CellQuery(worksheet.CellFeedLink);
@@ -59,29 +56,31 @@ public class GSheetManagerEditor : Editor {
 		}
 
 		string dataFormat = setting.DataTemplate.text;
-		string dataScript = dataFormat.Replace ("{WorkSheetName}", WorkSheetName).Replace ("{FieldList}", sb.ToString ());
+		string dataScript = dataFormat.Replace ("{WorkSheetName}", manager.WorkSheetName).Replace ("{FieldList}", sb.ToString ());
 		StringBuilder dataPathSB = new StringBuilder(setting.ScriptPath);
 
 		if (setting.ScriptPath[setting.ScriptPath.Length - 1] != '/') {
 			dataPathSB.Append("/");
 		}
-		dataPathSB.Append (WorkSheetName);
+		dataPathSB.Append (manager.WorkSheetName);
 		dataPathSB.Append ("Data.cs");
 
 		System.IO.File.WriteAllText (dataPathSB.ToString (), dataScript);
 
 
 		string editorFormat = setting.DataEditorTemplate.text;
-		string editorScript = editorFormat.Replace ("{WorkSheetName}", WorkSheetName);
+		string editorScript = editorFormat.Replace ("{WorkSheetName}", manager.WorkSheetName);
 		StringBuilder editorPathSB = new StringBuilder (setting.EditorScriptPath);
 
 		if (setting.EditorScriptPath [setting.EditorScriptPath.Length - 1] != '/') {
 			editorPathSB.Append("/");
 		}
-		editorPathSB.Append (WorkSheetName);
+		editorPathSB.Append (manager.WorkSheetName);
 		editorPathSB.Append ("DataEditor.cs");
 
 		System.IO.File.WriteAllText (editorPathSB.ToString (), editorScript);
+
+		AssetDatabase.Refresh ();
 
 	}
 

@@ -40,6 +40,12 @@ public class LevelDataEntry : GSheetDataEntry {
 		get { return _scontent;}
 		set { _scontent = value;}
 	}
+	[SerializeField]
+	string _ft;
+	public string fT {
+		get { return _ft;}
+		set { _ft = value;}
+	}
 
 }
 public class LevelData : GSheetData<LevelDataEntry> {

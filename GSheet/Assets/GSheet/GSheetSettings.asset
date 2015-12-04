@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CLIENT_ID: 1025324599733-l2rtceh4dn4jelkdscmbv187ug84futr.apps.googleusercontent.com
   CLIENT_SECRET: KTlRkHWtwN0bq86m2n4Jo-jF
-  ACCESS_CODE: 4/YwYa-Y7wdwlY-vytMvZ1_UuplqP8a76o0ENBVZtP1T4
+  ACCESS_CODE: 
   ACCESS_TOKEN: ya29.PwISvxVR7YymM-Job02uwXYEyL92uXYD5UxlEXyQ165Dk7RVE-UYUFr9FdeDK8jyXxiF
   REFRESH_TOKEN: 1/NiG7xINhDyZcML6gV97YDapZVU5hqHUwkGnCGv01IQA
   ScriptPath: Assets/Script/GSheet
