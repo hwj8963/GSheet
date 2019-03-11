@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Google.GData.Client;
 using Google.GData.Spreadsheets;
-using Google.GData.Client;
-
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using UnityEditor;
+using UnityEngine;
 
 public class GSheetDataEditor<Data,Entry> : Editor
 	where Data : GSheetData<Entry>
@@ -63,7 +62,7 @@ public class GSheetDataEditor<Data,Entry> : Editor
 		GUILayout.EndHorizontal ();
 
 		List<Entry> list = sheet.data;
-		for (int i=0; i<list.Count; i++) {
+		for (int i=0; list != null && i < list.Count; i++) {
 			GUILayout.BeginHorizontal();
 			object entry = list[i];
 			for(int p=0;p<properties.Length;p++) {
@@ -119,7 +118,26 @@ public class GSheetDataEditor<Data,Entry> : Editor
 			object entry = Activator.CreateInstance(t);
 			foreach (ListEntry.Custom element in row.Elements)
 			{
-				string fieldName = string.Format("_{0}",element.LocalName.ToLower());
+                //필드 이름이 비어있는 경우 _clrrx, _cyevm... 같은 형태로 연결되더라
+                var blankGoogleSpreadsheetRegex = new Regex(@"_\w\w\w\w\w");
+                if(blankGoogleSpreadsheetRegex.IsMatch(element.LocalName)) {
+                    continue;
+                }
+                // 타입으로 추정 안되면 건너뛰기
+                var allowedPrefix = new HashSet<string>() { "s", "f", "n" };
+                bool prefixFound = false;
+                foreach(var prefix in allowedPrefix) {
+                    if (element.LocalName.StartsWith(prefix)) {
+                        prefixFound = true;
+                        break;
+                    }
+                }
+                if(prefixFound == false) {
+                    continue;
+                }
+
+
+                string fieldName = string.Format("_{0}",element.LocalName.ToLower());
 				FieldInfo field = t.GetField(fieldName,bindingFlag);
 				if(field == null) {
 					Debug.LogError("null field : " + element.LocalName);
@@ -131,10 +149,21 @@ public class GSheetDataEditor<Data,Entry> : Editor
 		}
 	}
 	void SetValue(FieldInfo field, object entry, string value) {
+        // GSheet에서 숫자에 실수로 공백 넣으면 0으로 예외처리
 		if (field.FieldType== typeof(int)) {
-			field.SetValue(entry,int.Parse(value));
+            int val = 0;
+            if(value != "") {
+                val = int.Parse(value);
+            }
+			field.SetValue(entry, val);
+
 		} else if (field.FieldType == typeof(float)) {
-			field.SetValue(entry,float.Parse(value));
+            float val = 0;
+            if(value != "") {
+                val = float.Parse(value);
+            }
+			field.SetValue(entry, val);
+
 		} else if (field.FieldType == typeof(string)) {
 			field.SetValue(entry,value);
 		} else {

@@ -50,7 +50,10 @@ public class GSheetManagerEditor : Editor {
 				fieldType = "int";
 			} else if(cell.Value[0] == 'f') {
 				fieldType = "float";
-         	}
+         	} else if(cell.Value[0] == '_') {
+                continue;
+            }
+
 			string fieldScript = fieldFormat.Replace("{FieldName}",cell.Value).Replace("{LowerCaseFieldName}",cell.Value.ToLower()).Replace ("{FieldType}",fieldType);
 			sb.Append (fieldScript);
 		}
